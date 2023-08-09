@@ -6,6 +6,7 @@ Scene Parsing which is based on Semantic Segmentation will assign each pixel in 
 ## Pyramid scene parsing network (PSPNet)
 In addition to traditional dilated FCN, it uses pyramid pooling to achieve pixel-level feature prediction.
 ### Pyramid pooling
+Pyramid Pooling is a hierarchical global information containing with different scale among the sub regions. The module fuses features under four different pyramid scales
 Pyramid pooling is beneficial since CNN is restricted to input size. CNN consists of some Convolutional (Conv) layers followed by some Fully-Connected (FC) layers where FC layers needs fixed input. Since not all images are fixed size, the cropping will be needed for the model. Cropping  may lose important feature that helps the machine to predict the data. To avoid this problem we add  Spatial Pyramid Pooling (SPP) layerbetween the last Conv layer and the first FC layer and removes the fixed-size constraint on CNN. 
 SPP layer is to pool the variable-size features that come from the Conv layer and generate fixed-length outputs that will then be fed to the first FC layer of the network.The input of the SPP layer is a set of d feature maps of arbitrary size. Then, the SPP layer maintains spatial information of these feature maps in local spatial bins. The process is below: 
 1. The first pooling layer (right in the image) consists of a single bin that outputs a d-dimensional feature since it applies max pooling in each input feature map.
@@ -14,3 +15,13 @@ SPP layer is to pool the variable-size features that come from the Conv layer an
 All pooling layers apply max pooling. In total, the output feature has a fixed size that is equal to (16 + 4 + 1) \times d.
 
 reference: https://www.baeldung.com/cs/spp-cnn
+
+### Dilated convolutional layer
+Dilated convolutional layer incerases the receptive field by reducing stride and increasing dilation.
+
+
+### Architectural Description
+#### Layer3
+Layer3 will be dilated. I decreased a stride from 2 to 1 and increased dilation from 1 to 2 from the convolutional resnet 3x3 covolutional layer. For the downsamplying, aka bottleneck, as well, I decreased the stride from 2 to 1.
+#### Layer4
+Layer3 will be dilated. I decreased a stride from 2 to 1 and increased dilation from 1 to 4 from the convolutional resnet 3x3 covolutional layer. Additional to that, I added the padding to 4. For the downsamplying as well, I decreased the stride from 2 to 1.
